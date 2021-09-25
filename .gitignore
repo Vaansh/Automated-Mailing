@@ -1,6 +1,7 @@
 env/**
 __pycache__
 **/.DS_Store
+dataset/contact_list.**
 credentials/credentials.json
 signature/vaansh_signature.html
-package/ConUHacks VI Sponsorship Package.pdf
+package/sponsorship_package.pdf
