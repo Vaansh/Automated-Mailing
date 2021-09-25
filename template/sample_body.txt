@@ -1,0 +1,12 @@
+Hello RECIPIENT_NAME,
+
+First line. 
+
+Second line.
+ 
+Mention COMPANY_NAME.
+
+Thank you.
+
+Best,
+CONTACT_NAME

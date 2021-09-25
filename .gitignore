@@ -1,6 +1,8 @@
 env/**
 __pycache__
 **/.DS_Store
+template/body.txt
+template/subject.txt
 dataset/contact_list.**
 credentials/credentials.json
 signature/vaansh_signature.html

@@ -2,18 +2,19 @@ import os
 import tools
 import smtplib
 
-from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
 
-def send_mail(user: str, password: str, headers: dict, subject: str, signature: str) -> None:
+def send_mail(user: str, password: str, headers: dict, subject: str, template: str, signature: str) -> None:
     message = MIMEMultipart("mixed")
     message["Subject"] = subject
     message["From"] = user
-    message["To"] = headers["email"]
+    message["To"] = headers["EMAIL"]
 
-    body = "Hi " + headers["recipient name"] + ",\n" + "body\n" + "Best,\n" + headers["contact name"]
+    body = tools.generate_body(template, headers)
+
     body_of_message = MIMEText(body, "plain")
     signature_of_message = MIMEText(signature, "html")
 
@@ -22,9 +23,9 @@ def send_mail(user: str, password: str, headers: dict, subject: str, signature: 
     message.attach(signature_of_message)
 
     # attach pdf sponsorship package
-    with open(headers["package path"], "rb") as f:
+    with open(headers["PACKAGE_PATH"], "rb") as f:
         attach = MIMEApplication(f.read(), _subtype="pdf")
-    attach.add_header("Content-Disposition", "attachment", filename=os.path.basename(str(headers["package path"])))
+    attach.add_header("Content-Disposition", "attachment", filename=os.path.basename(str(headers["PACKAGE_PATH"])))
     message.attach(attach)
 
     mail = smtplib.SMTP("smtp.gmail.com", 587)
@@ -33,5 +34,5 @@ def send_mail(user: str, password: str, headers: dict, subject: str, signature: 
     mail.starttls()
 
     mail.login(user, password)
-    mail.sendmail(user, headers["email"], message.as_string())
+    mail.sendmail(user, headers["EMAIL"], message.as_string())
     mail.quit()
