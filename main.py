@@ -1,14 +1,21 @@
-import json
+import os
+import tools
+import smtp
 
-def get_credentials() -> list:
-    file = open('credentials/credentials.json',)
-    data = json.load(file)
-    email, password = data['email'], data['password']
-    file.close()
-    return [email, password]
 
 def main() -> None:
-    print(get_credentials())
+    credentials = tools.get_credentials()
+    signature = tools.get_signature()
+
+    headers = {
+        "email": "sample@sample.com",
+        "recipient name": "recruiter",
+        "contact name": "teammate",
+        "package path": os.getcwd() + "/package/sample-package.pdf",
+    }
+
+    smtp.send_mail(credentials[0], credentials[1], headers, "test", signature)
+
 
 if __name__ == "__main__":
     main()
