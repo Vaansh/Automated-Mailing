@@ -25,10 +25,26 @@ def read_csv(path: str) -> str:
 
 def generate_headers(row: list, path: str) -> dict:
     headers = {
-        "email": row[0],
-        "recipient name": row[1],
-        "company name": row[2],
-        "contact name": row[3],
-        "package path": os.getcwd() + path,
+        "EMAIL": row[0],
+        "RECIPIENT_NAME": row[1],
+        "COMPANY_NAME": row[2],
+        "CONTACT_NAME": row[3],
+        "PACKAGE_PATH": os.getcwd() + path,
     }
     return headers
+
+
+def get_subject(path: str) -> str:
+    with open(os.getcwd() + path, "rt") as f:
+        subject = f.read()
+    return subject
+
+
+def generate_body(path: str, headers: list) -> str:
+    with open(os.getcwd() + path, "r") as f:
+        body = f.read()
+        body = body.replace("RECIPIENT_NAME", headers["RECIPIENT_NAME"])
+        body = body.replace("COMPANY_NAME", headers["COMPANY_NAME"])
+        body = body.replace("CONTACT_NAME", headers["CONTACT_NAME"])
+        body = body + "\n\n"
+    return body

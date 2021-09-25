@@ -1,5 +1,6 @@
 import os
 import smtp
+import time
 import tools
 
 
@@ -10,7 +11,17 @@ def main() -> None:
 
     for index, row in data.iterrows():
         headers = tools.generate_headers(row, "/package/sample_package.pdf")
-        smtp.send_mail(credentials[0], credentials[1], headers, "test", signature)
+        smtp.send_mail(
+            credentials[0],
+            credentials[1],
+            headers,
+            tools.get_subject("/template/sample_subject.txt"),
+            "/template/sample_body.txt",
+            signature,
+        )
+
+        # artificial delay
+        time.sleep(15)
 
 
 if __name__ == "__main__":
