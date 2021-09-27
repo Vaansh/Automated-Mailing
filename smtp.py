@@ -15,8 +15,8 @@ def send_mail(user: str, password: str, headers: dict, subject: str, template: s
 
     body = tools.generate_body(template, headers)
 
-    body_of_message = MIMEText(body, "plain")
-    signature_of_message = MIMEText(signature, "html")
+    body_of_message = MIMEText(body, "plain", _charset="utf-8")
+    signature_of_message = MIMEText(signature, "html", _charset="utf-8")
 
     # attach body and signature
     message.attach(body_of_message)
@@ -34,5 +34,5 @@ def send_mail(user: str, password: str, headers: dict, subject: str, template: s
     mail.starttls()
 
     mail.login(user, password)
-    mail.sendmail(user, headers["EMAIL"], message.as_string())
+    mail.sendmail(user, headers["EMAIL"], message.as_string(), mail_options=["SMTPUTF8"])
     mail.quit()
