@@ -43,7 +43,11 @@ def get_subject(path: str) -> str:
 def generate_body(path: str, headers: list) -> str:
     with open(os.getcwd() + path, "r") as f:
         body = f.read()
-        body = body.replace("RECIPIENT_NAME", headers["RECIPIENT_NAME"])
+        body = (
+            body.replace("Hello RECIPIENT_NAME", "Hello")
+            if not isinstance(headers["RECIPIENT_NAME"], str)
+            else body.replace("RECIPIENT_NAME", headers["RECIPIENT_NAME"])
+        )
         body = body.replace("COMPANY_NAME", headers["COMPANY_NAME"])
         body = body.replace("CONTACT_NAME", headers["CONTACT_NAME"])
         body = body + "\n\n"
